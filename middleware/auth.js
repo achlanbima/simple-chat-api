@@ -8,6 +8,6 @@ exports.auth = (req, res, next) => {
     req.user = decode
     next()
   }catch(err){
-    res.send(err)
+    res.status(401).send({msg:"Token salah"})
   }
 }

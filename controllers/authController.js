@@ -29,7 +29,7 @@ exports.signIn = (req, res) => {
       res.send(err)
     }else{
       if(rows.length == 0){
-        res.send(rows)
+        res.status(400).send({msg:"Email tidak terdaftar"})
       }else{
         if( bcrypt.compareSync(password, rows[0].password)){
           const token = jwt.sign({id: rows[0].id, email: rows[0].email, username: rows[0].username}, process.env.SECRET_KEY)
@@ -37,7 +37,7 @@ exports.signIn = (req, res) => {
             res.send({token: token})
           }
         }else{
-          res.send({status:false, msg:'Password salah'})   
+          res.status(400).send({msg:'Password salah'})   
         }
       }
     }

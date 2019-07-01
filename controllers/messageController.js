@@ -5,7 +5,7 @@ exports.test = (req, res) => {
 }
 
 exports.showMsg = (req, res) => {
-  connection.query('SELECT*FROM v_post ', (err, rows, fields) => {
+  connection.query('SELECT*FROM v_post order by created_at DESC', (err, rows, fields) => {
     if(err){
       res.send(err)
     }else{
@@ -20,7 +20,7 @@ exports.createMsg = (req, res) => {
 
   connection.query(`INSERT INTO message VALUES (null, '${userId}', '${message}', null) `, (err, rows, fields) => {
     if(err){
-      res.send(err)
+      res.status(500).send({msg:"Terjadi kesalahan"})
     }else{
       res.send("Messages created")
     }
@@ -32,7 +32,7 @@ exports.deleteMsg = (req, res) => {
 
   connection.query(`DELETE FROM message WHERE id=${id} `, (err, rows, fields) => {
     if(err){
-      res.send(err)
+      res.status(500).send({msg:"Terjadi kesalahan"})
     }else{
       res.send("Messages deleted")
     }
@@ -45,7 +45,7 @@ exports.updateMsg = (req, res) => {
 
   connection.query(`UPDATE message SET message='${message}' WHERE id=${id} `, (err, rows, fields) => {
     if(err){
-      res.send(err)
+      res.status(500).send({msg:"Terjadi kesalahan"})
     }else{
       res.send(rows)
     }
